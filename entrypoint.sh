@@ -12,7 +12,7 @@ logo_print(){
                                                                                          PHP 7.3
     WORDPRESS CONTAINER (R) AVRIL2020 V0.1
     FOR MIND HOSTING
-    https://mind.mindhosting
+    https://mind.hosting
     by SAKLY Ayoub
     saklyayoub@gmail.com
 
