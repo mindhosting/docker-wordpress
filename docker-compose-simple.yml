@@ -24,7 +24,7 @@ services:
   wp:
     env_file:
       - ./.env
-    build: ./
+    image: mindhosting/wordpress:latest
     depends_on:
       - db
     restart: unless-stopped

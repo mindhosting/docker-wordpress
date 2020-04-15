@@ -45,7 +45,7 @@ services:
   wp:
     env_file:
       - ./.env
-    build: ./
+    image: mindhosting/wordpress:latest
     depends_on:
       - db
       - reverse-proxy
@@ -59,19 +59,19 @@ services:
       - ./volumes/backup:/web_data/backup
     labels:
       # SIMPLE HTTP CONFIGURATION
-      #- "traefik.http.routers.moodle.rule=Host(`${DOMAIN_NAME}`)"
+      #- "traefik.http.routers.wp.rule=Host(`${DOMAIN_NAME}`)"
       # CONFIG TRAEFIK SSL CONFIG WITH LETSENCRYPT WITH HTTPS REDIRECTION
       - "traefik.enable=true"
-      - "traefik.http.middlewares.moodle-redirect-websecure.redirectscheme.scheme=https"
-      - "traefik.http.routers.moodle-web.middlewares=moodle-redirect-websecure"
-      #- "traefik.http.routers.moodle-web.rule=Host(`${DOMAIN_NAME}`)"
-      - "traefik.http.routers.moodle-web.rule=Host(`${DOMAIN_NAME}`) || Host(`www.${DOMAIN_NAME}`)"
-      - "traefik.http.routers.moodle-web.entrypoints=web"
-      #- "traefik.http.routers.moodle-websecure.rule=Host(`${DOMAIN_NAME}`)"
-      - "traefik.http.routers.moodle-websecure.rule=Host(`${DOMAIN_NAME}`) || Host(`www.${DOMAIN_NAME}`)"
-      - "traefik.http.routers.moodle-websecure.entrypoints=websecure"
-      - "traefik.http.routers.moodle-websecure.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.moodle-websecure.tls=true"
+      - "traefik.http.middlewares.wp-redirect-websecure.redirectscheme.scheme=https"
+      - "traefik.http.routers.wp-web.middlewares=wp-redirect-websecure"
+      #- "traefik.http.routers.wp-web.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.wp-web.rule=Host(`${DOMAIN_NAME}`) || Host(`www.${DOMAIN_NAME}`)"
+      - "traefik.http.routers.wp-web.entrypoints=web"
+      #- "traefik.http.routers.wp-websecure.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.wp-websecure.rule=Host(`${DOMAIN_NAME}`) || Host(`www.${DOMAIN_NAME}`)"
+      - "traefik.http.routers.wp-websecure.entrypoints=websecure"
+      - "traefik.http.routers.wp-websecure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.wp-websecure.tls=true"
     hostname: ${DOMAIN_NAME}
     environment:
       FILE_MANAGER_USER: ${FILE_MANAGER_USER}
