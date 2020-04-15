@@ -17,12 +17,25 @@ services:
       - db
     restart: unless-stopped
     links:
-      - db:mysql
+      - db:db
     volumes:
       - ./volumes/public_html:/web_data/public_html
+      - ./volumes/db_data:/web_data/db_data
+      - ./volumes/backup:/web_data/backup
+    hostname: 127.0.0.1
     environment:
       FILE_MANAGER_USER: wordpress
       FILE_MANAGER_PASSWORD: $$2y$$10$$eIf87ey24XoM.BcH0oKa3uo7z6cR1RVG1J3JK1emuweTJKwx0uAlu
       TZ: Africa/Tunis
+      VIRTUAL_HOST: 127.0.0.1
+      WP_URL: http://127.0.0.1/
+      DB_NAME: database
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_HOST: db
+      WP_TITLE: BLOGTITLE
+      WP_ADMIN_USERNAME: admin
+      WP_ADMIN_PASSWORD: password
+      WP_ADMIN_EMAIL: webmaster@mind.engineering
     ports:
       - 80:80

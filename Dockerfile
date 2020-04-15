@@ -60,13 +60,17 @@ ENTRYPOINT ["entrypoint.sh"]
 ADD filemanager /var/www/filemanager
 RUN chown -R www-data:www-data /var/www/filemanager
 
-# Downloading lasteste wordpress
+# Downloading lastest wordpress
 WORKDIR web_data
 RUN mkdir public_html && \
-    wget https://wordpress.org/latest.zip
+    wget http://wordpress.org/latest.tar.gz && \
+    tar xfz latest.tar.gz && \
+    rm -r latest.tar.gz
 
-RUN unzip wordpress*.zip && \
-    rm -r wordpress*.zip
+# Configure WP CLI
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp
 
 # Declaring volumes
 VOLUME web_data/public_html
