@@ -25,7 +25,7 @@ services:
       - db
     restart: unless-stopped
     links:
-      - $DATABASE_HOST:$DATABASE_HOST
+      - db:db
     volumes:
       - ./$DOMAIN_NAME/volumes/public_html:/web_data/public_html
       # FOR DUPLICATI BACKUP PURPUSE
@@ -49,8 +49,6 @@ services:
   duplicati:
     image: linuxserver/duplicati
     restart: unless-stopped
-    depends_on:
-      - reverse-proxy
     environment:
       PUID: 1000
       PGID: 1000
@@ -77,11 +75,11 @@ services:
     depends_on:
       - db
     links:
-      - $DATABASE_HOST:$DATABASE_HOST
+      - db:db
     environment:
       MYSQL_USERNAME: root
       MYSQL_ROOT_PASSWORD: $DATABASE_ROOT_PASSWORD
-      PMA_HOST: $DATABASE_HOST
+      PMA_HOST: db
       #PMA_ABSOLUTE_URI: $WEB_PROTOCOLE://phpmyadmin.$DOMAIN_NAME/
       TZ: $TIMEZONE
       VIRTUAL_HOST: phpmyadmin.$DOMAIN_NAME
