@@ -40,7 +40,7 @@ services:
       - web:/web_data/public_html
     hostname: $DOMAIN_NAME
     environment:
-      FILE_MANAGER_USER: $FILE_MANAGER_USER
+      FILE_MANAGER_USER: $USERNAME
       FILE_MANAGER_PASSWORD: $FILE_MANAGER_PASSWORD
       TZ: Africa/Tunis
       WP_URL: https://$DOMAIN_NAME/
