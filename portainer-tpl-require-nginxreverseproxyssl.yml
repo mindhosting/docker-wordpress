@@ -28,7 +28,6 @@ services:
       - db:db
     volumes:
       - ./$DOMAIN_NAME/volumes/public_html:/web_data/public_html
-      # FOR DUPLICATI BACKUP PURPUSE
       - ./$DOMAIN_NAME/volumes/db_data:/web_data/db_data
       - ./$DOMAIN_NAME/volumes/backup:/web_data/backup
     hostname: $DOMAIN_NAME
@@ -42,13 +41,15 @@ services:
       DB_USER: $DATABASE_USER
       DB_PASSWORD: $DATABASE_PASSWORD
       DB_HOST: $DATABASE_HOST
-      WP_TITLE: $WP_TITLE
+      WP_TITLE: Blog
       WP_ADMIN_USERNAME: $WP_ADMIN_USERNAME
       WP_ADMIN_PASSWORD: $WP_ADMIN_PASSWORD
       WP_ADMIN_EMAIL: $WP_ADMIN_EMAIL
   duplicati:
     image: linuxserver/duplicati
     restart: unless-stopped
+    depends_on:
+      - wp
     environment:
       PUID: 1000
       PGID: 1000
@@ -58,15 +59,11 @@ services:
       LETSENCRYPT_HOST: duplicati.$DOMAIN_NAME
       LETSENCRYPT_EMAIL: $LETSENCRYPT_EMAIL
     volumes:
-      # TO CONTROLE DOCKER SOCK AND DOCKER TO STOP/START MYSQL CONTAINER BEFORE/AFTER BACKUP
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
       - ./$DOMAIN_NAME/volumes/backup/script.sh:/usr/bin/script.sh
-      # ACCESS TO VOLUME SOURCES
       - ./$DOMAIN_NAME/volumes:/source
-      # BACKUP DISTINATION
       - ./$DOMAIN_NAME/volumes/backup/backups:/backups
-      # DUPLICATI CONFIGURATION
       - ./$DOMAIN_NAME/volumes/backup/config:/config
     hostname: $DOMAIN_NAME
   phpmyadmin:
@@ -80,7 +77,6 @@ services:
       MYSQL_USERNAME: root
       MYSQL_ROOT_PASSWORD: $DATABASE_ROOT_PASSWORD
       PMA_HOST: db
-      #PMA_ABSOLUTE_URI: $WEB_PROTOCOLE://phpmyadmin.$DOMAIN_NAME/
       TZ: $TIMEZONE
       VIRTUAL_HOST: phpmyadmin.$DOMAIN_NAME
       LETSENCRYPT_HOST: phpmyadmin.$DOMAIN_NAME
