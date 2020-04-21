@@ -31,21 +31,21 @@ services:
       # FOR DUPLICATI BACKUP PURPUSE
       - ./$DOMAIN_NAME/volumes/db_data:/web_data/db_data
       - ./$DOMAIN_NAME/volumes/backup:/web_data/backup
-    hostname: ${DOMAIN_NAME}
+    hostname: $DOMAIN_NAME
     environment:
-      FILE_MANAGER_USER: ${FILE_MANAGER_USER}
-      FILE_MANAGER_PASSWORD: ${FILE_MANAGER_PASSWORD}
-      TZ: ${TIMEZONE}
-      VIRTUAL_HOST: ${DOMAIN_NAME}
-      WP_URL: http://${DOMAIN_NAME}/
-      DB_NAME: ${DATABASE_NAME}
-      DB_USER: ${DATABASE_USER}
-      DB_PASSWORD: ${DATABASE_PASSWORD}
-      DB_HOST: ${DATABASE_HOST}
-      WP_TITLE: ${WP_TITLE}
-      WP_ADMIN_USERNAME: ${WP_ADMIN_USERNAME}
-      WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
-      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      FILE_MANAGER_USER: $FILE_MANAGER_USER
+      FILE_MANAGER_PASSWORD: $FILE_MANAGER_PASSWORD
+      TZ: $TIMEZONE
+      VIRTUAL_HOST: $DOMAIN_NAME
+      WP_URL: http://$DOMAIN_NAME/
+      DB_NAME: $DATABASE_NAME
+      DB_USER: $DATABASE_USER
+      DB_PASSWORD: $DATABASE_PASSWORD
+      DB_HOST: $DATABASE_HOST
+      WP_TITLE: $WP_TITLE
+      WP_ADMIN_USERNAME: $WP_ADMIN_USERNAME
+      WP_ADMIN_PASSWORD: $WP_ADMIN_PASSWORD
+      WP_ADMIN_EMAIL: $WP_ADMIN_EMAIL
   duplicati:
     image: linuxserver/duplicati
     restart: unless-stopped
