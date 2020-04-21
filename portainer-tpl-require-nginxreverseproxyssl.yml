@@ -38,8 +38,6 @@ services:
       - db:db
     volumes:
       - web:/web_data/public_html
-      - mysql:/web_data/db_data
-      - backups:/web_data/backup
     hostname: $DOMAIN_NAME
     environment:
       FILE_MANAGER_USER: $FILE_MANAGER_USER
@@ -67,7 +65,7 @@ services:
       PGID: 1000
       TZ: Africa/Tunis
       CLI_ARGS: #optional
-      VIRTUAL_PORT: 8200
+      VIRTUAL_PORT: '8200'
       VIRTUAL_HOST: duplicat.$DOMAIN_NAME
       LETSENCRYPT_HOST: duplicati.$DOMAIN_NAME
       LETSENCRYPT_EMAIL: $LETSENCRYPT_EMAIL
@@ -83,7 +81,7 @@ services:
       - web:/source/public_html
       # BACKUP DISTINATION
       - backups:/backups
-    hostname: wp.demo.mind.hosting
+    hostname: $DOMAIN_NAME
     network_mode: bridge
 
   phpmyadmin:
