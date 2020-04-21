@@ -30,7 +30,7 @@ wp_setup_files(){
     fi    
 }
 wp_update_config(){
-    if [[ ! -f /web_data/db_data/public_html/wp-config.php ]]; then
+    if [[ ! -f /web_data/public_html/wp-config.php ]]; then
         mv /web_data/public_html/wp-config-sample.php /web_data/public_html/wp-config.php
         echo "[OK] CONFIG FILE DOESN'T EXIST, NEW ONE HAS BEEN CREATED"
     fi
