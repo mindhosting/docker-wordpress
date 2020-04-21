@@ -7,19 +7,28 @@
 #
 
 version: '2'
+
+volumes:
+  mysql:
+  web:
+  duplicati:
+  backups:
+    driver: local
+  
 services:
   db:
-    image: mysql:$MYSQL_V
+    image: mysql:5.7.29
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: $DATABASE_NAME
-      MYSQL_USER: $DATABASE_USER
-      MYSQL_PASSWORD: $DATABASE_PASSWORD
-      MYSQL_ROOT_PASSWORD: $DATABASE_ROOT_PASSWORD
-      TZ: $TIMEZONE
+      MYSQL_DATABASE: $USERNAME
+      MYSQL_USER: $USERNAME
+      MYSQL_PASSWORD: $PASSWORD
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+      TZ: Africa/Tunis
     volumes:
-      - ./$DOMAIN_NAME/volumes/db_data:/var/lib/mysql
+      - mysql:/var/lib/mysql
     network_mode: bridge
+
   wp:
     image: mindhosting/wordpress:latest
     depends_on:
@@ -28,47 +37,55 @@ services:
     links:
       - db:db
     volumes:
-      - ./$DOMAIN_NAME/volumes/public_html:/web_data/public_html
-      - ./$DOMAIN_NAME/volumes/db_data:/web_data/db_data
-      - ./$DOMAIN_NAME/volumes/backup:/web_data/backup
+      - web:/web_data/public_html
+      - mysql:/web_data/db_data
+      - backups:/web_data/backup
     hostname: $DOMAIN_NAME
     environment:
       FILE_MANAGER_USER: $FILE_MANAGER_USER
       FILE_MANAGER_PASSWORD: $FILE_MANAGER_PASSWORD
-      TZ: $TIMEZONE
-      VIRTUAL_HOST: $DOMAIN_NAME
-      WP_URL: http://$DOMAIN_NAME/
-      DB_NAME: $DATABASE_NAME
-      DB_USER: $DATABASE_USER
-      DB_PASSWORD: $DATABASE_PASSWORD
+      TZ: Africa/Tunis
+      WP_URL: https://$DOMAIN_NAME/
+      DB_NAME: $USERNAME
+      DB_USER: $USERNAME
+      DB_PASSWORD: $PASSWORD
       DB_HOST: db
       WP_TITLE: Blog
-      WP_ADMIN_USERNAME: $WP_ADMIN_USERNAME
-      WP_ADMIN_PASSWORD: $WP_ADMIN_PASSWORD
-      WP_ADMIN_EMAIL: $WP_ADMIN_EMAIL
+      WP_ADMIN_USERNAME: $USERNAME
+      WP_ADMIN_PASSWORD: $PASSWORD
+      WP_ADMIN_EMAIL: $EMAIL
+      VIRTUAL_HOST: $DOMAIN_NAME
+      LETSENCRYPT_HOST: $DOMAIN_NAME
+      LETSENCRYPT_EMAIL: $LETSENCRYPT_EMAIL
     network_mode: bridge
+
   duplicati:
     image: linuxserver/duplicati
     restart: unless-stopped
-    depends_on:
-      - wp
     environment:
       PUID: 1000
       PGID: 1000
-      TZ: $TIMEZONE
+      TZ: Africa/Tunis
       CLI_ARGS: #optional
+      VIRTUAL_PORT: 8200
       VIRTUAL_HOST: duplicat.$DOMAIN_NAME
       LETSENCRYPT_HOST: duplicati.$DOMAIN_NAME
       LETSENCRYPT_EMAIL: $LETSENCRYPT_EMAIL
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/bin/docker:/usr/bin/docker
-      - ./$DOMAIN_NAME/volumes/backup/script.sh:/usr/bin/script.sh
-      - ./$DOMAIN_NAME/volumes:/source
-      - ./$DOMAIN_NAME/volumes/backup/backups:/backups
-      - ./$DOMAIN_NAME/volumes/backup/config:/config
-    hostname: $DOMAIN_NAME
+      # DUPLICATI CONFIGURATION
+      - duplicati:/config
+      # TO CONTROLE DOCKER SOCK AND DOCKER TO STOP/START MYSQL CONTAINER BEFORE/AFTER BACKUP
+      #- /var/run/docker.sock:/var/run/docker.sock
+      #- /usr/bin/docker:/usr/bin/docker
+      #- ./volumes/backup/script.sh:/usr/bin/script.sh
+      # ACCESS TO VOLUME SOURCES
+      - mysql:/source/db_data
+      - web:/source/public_html
+      # BACKUP DISTINATION
+      - backups:/backups
+    hostname: wp.demo.mind.hosting
     network_mode: bridge
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: unless-stopped
@@ -78,9 +95,9 @@ services:
       - db:db
     environment:
       MYSQL_USERNAME: root
-      MYSQL_ROOT_PASSWORD: $DATABASE_ROOT_PASSWORD
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
       PMA_HOST: db
-      TZ: $TIMEZONE
+      TZ: Africa/Tunis
       VIRTUAL_HOST: phpmyadmin.$DOMAIN_NAME
       LETSENCRYPT_HOST: phpmyadmin.$DOMAIN_NAME
       LETSENCRYPT_EMAIL: $LETSENCRYPT_EMAIL
