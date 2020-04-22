@@ -57,8 +57,9 @@ COPY entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["entrypoint.sh"]
 
 #Add Custom Tiny File Manager
-ADD filemanager /var/www/filemanager
-RUN chown -R www-data:www-data /var/www/filemanager
+RUN git clone https://github.com/mindhosting/filemanager.git /var/www/filemanager && \
+    rm -r /var/www/filemanager/.git && \
+    chown -R www-data:www-data /var/www/filemanager
 
 # Downloading lastest wordpress
 WORKDIR web_data
