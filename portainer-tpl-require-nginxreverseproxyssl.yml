@@ -39,6 +39,7 @@ services:
       - web:/web_data/public_html
     hostname: $DOMAIN_NAME
     environment:
+      FILEMANAGER_ROOT_PATH: '/web_data/public_thml'
       TZ: Africa/Tunis
       WP_URL: https://$DOMAIN_NAME/
       DB_NAME: $USERNAME
