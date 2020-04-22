@@ -64,7 +64,7 @@ services:
       PGID: 1000
       TZ: Africa/Tunis
       CLI_ARGS: #optional
-      VIRTUAL_HOST: duplicat.$DOMAIN_NAME
+      VIRTUAL_HOST: duplicati.$DOMAIN_NAME
       LETSENCRYPT_HOST: duplicati.$DOMAIN_NAME
       LETSENCRYPT_EMAIL: $LETSENCRYPT_EMAIL
       VIRTUAL_PORT: '8200'
