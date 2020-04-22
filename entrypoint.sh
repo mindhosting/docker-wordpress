@@ -59,12 +59,6 @@ wp_setup_database(){
         echo "[OK] WORDPRESS DATABASE SETTED UP"
     fi
 }
-filemanager_set_credential(){
-    if [[ -n "$FILE_MANAGER_USER" ]] && [[ -n "$FILE_MANAGER_PASSWORD" ]]; then
-        sed -i -e "s#'CHANGEME_USER' => 'CHANGEME_PASSWORD'#'"$FILE_MANAGER_USER"' => '"$FILE_MANAGER_PASSWORD"'#g" /var/www/filemanager/index.php
-        echo "[OK] TINY FILE MANAGER CREDENTIAL SETTED UP"
-    fi
-}
 if [[ "$1" == apache2* ]]; then
     logo_print
     echo "[Initilizing ...]"
@@ -74,7 +68,6 @@ if [[ "$1" == apache2* ]]; then
     wp_update_config
     wp_securing_web
     wp_setup_database
-    filemanager_set_credential
     echo ""
     echo ""
     echo "**** WORDPRESS CONTAINER STARED SUCCESSFULY ****"
