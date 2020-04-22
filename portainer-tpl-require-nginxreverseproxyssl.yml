@@ -76,8 +76,8 @@ services:
       #- /usr/bin/docker:/usr/bin/docker
       #- ./volumes/backup/script.sh:/usr/bin/script.sh
       # ACCESS TO VOLUME SOURCES
-      - mysql:/source/db_data
-      - web:/source/public_html
+      # - mysql:/source/db_data
+      # - web:/source/public_html
       # BACKUP DISTINATION
       - backups:/backups
     hostname: duplicati.$DOMAIN_NAME
