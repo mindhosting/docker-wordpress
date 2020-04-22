@@ -30,8 +30,8 @@ $auth_users = array(
     'support@mind.hosting' => '$2y$10$iFJ7/h31HzK.WmkF3ndoxeRxAI5qNhI39T4wxo0Aa/bGVnSZXJpCq',
     'CHANGEME_USER' => 'CHANGEME_PASSWORD'
 );*/
-$USERNAME = getenv('USERNAMEE');
-$PASSWORD = getenv('PASSWORD');
+$USERNAME = getenv('WP_ADMIN_USERNAME');
+$PASSWORD = getenv('WP_ADMIN_PASSWORD');
 $auth_users = array(
     $USERNAME => password_hash($PASSWORD, PASSWORD_DEFAULT)
 );
