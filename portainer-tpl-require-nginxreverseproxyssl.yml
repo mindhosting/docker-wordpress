@@ -8,6 +8,12 @@
 
 version: '2'
 
+volumes:
+  mysql:
+  web:
+  duplicati:
+  backups:
+
 services:
   db:
     image: mysql:5.7.29
@@ -19,7 +25,7 @@ services:
       MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
       TZ: Africa/Tunis
     volumes:
-      - $DOMAIN_NAME_mysql:/var/lib/mysql
+      - mysql:/var/lib/mysql
     network_mode: bridge
 
   wp:
@@ -30,7 +36,7 @@ services:
     links:
       - db:db
     volumes:
-      - $DOMAIN_NAME_web:/web_data/public_html
+      - web:/web_data/public_html
     hostname: $DOMAIN_NAME
     environment:
       FILE_MANAGER_USER: $USERNAME
@@ -64,16 +70,16 @@ services:
       LETSENCRYPT_EMAIL: $LETSENCRYPT_EMAIL
     volumes:
       # DUPLICATI CONFIGURATION
-      - $DOMAIN_NAME_duplicati:/config
+      - duplicati:/config
       # TO CONTROLE DOCKER SOCK AND DOCKER TO STOP/START MYSQL CONTAINER BEFORE/AFTER BACKUP
       #- /var/run/docker.sock:/var/run/docker.sock
       #- /usr/bin/docker:/usr/bin/docker
       #- ./volumes/backup/script.sh:/usr/bin/script.sh
       # ACCESS TO VOLUME SOURCES
-      - $DOMAIN_NAME_mysql:/source/db_data
-      - $DOMAIN_NAME_web:/source/public_html
+      - mysql:/source/db_data
+      - web:/source/public_html
       # BACKUP DISTINATION
-      - $DOMAIN_NAME_backups:/backups
+      - backups:/backups
     hostname: duplicati.$DOMAIN_NAME
     network_mode: bridge
 
@@ -93,9 +99,3 @@ services:
       LETSENCRYPT_HOST: phpmyadmin.$DOMAIN_NAME
       LETSENCRYPT_EMAIL: $LETSENCRYPT_EMAIL
     network_mode: bridge
-
-volumes:
-  $DOMAIN_NAME_mysql:
-  $DOMAIN_NAME_web:
-  $DOMAIN_NAME_duplicati:
-  $DOMAIN_NAME_backups:
