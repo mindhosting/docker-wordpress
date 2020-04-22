@@ -74,7 +74,7 @@ services:
       - $DOMAIN_NAME_web:/source/public_html
       # BACKUP DISTINATION
       - $DOMAIN_NAME_backups:/backups
-    hostname: $DOMAIN_NAME
+    hostname: duplicati.$DOMAIN_NAME
     network_mode: bridge
 
   phpmyadmin:
