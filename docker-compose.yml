@@ -40,14 +40,10 @@ services:
       FILEMANAGER_ROOT_PATH: '/web_data/public_thml'
       TZ: Africa/Tunis
       WP_URL: https://127.0.0.1/
-      DB_NAME: admin
-      DB_USER: admin
-      DB_PASSWORD: password
-      DB_HOST: db
       WP_TITLE: Blog
       ADMIN_USERNAME: admin
       ADMIN_PASSWORD: password
-      WP_ADMIN_EMAIL: admin@localhost.tn
+      ADMIN_EMAIL: admin@localhost.tn
       VIRTUAL_HOST: 127.0.0.1
     ports:
       - 80:80

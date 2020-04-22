@@ -35,10 +35,10 @@ wp_update_config(){
         echo "[OK] CONFIG FILE DOESN'T EXIST, NEW ONE HAS BEEN CREATED"
     fi
     echo "[CHECK] CONFIG FILE HASE BEEN CREATED"
-    sed -i "/DB_NAME/c\define( 'DB_NAME', '"$DB_NAME"' );" /web_data/public_html/wp-config.php
-    sed -i "/DB_USER/c\define( 'DB_USER', '"$DB_USER"' );" /web_data/public_html/wp-config.php
-    sed -i "/DB_PASSWORD/c\define( 'DB_PASSWORD', '"$DB_PASSWORD"' );" /web_data/public_html/wp-config.php
-    sed -i "/DB_HOST/c\define( 'DB_HOST', '"$DB_HOST"' );" /web_data/public_html/wp-config.php
+    sed -i "/DB_NAME/c\define( 'DB_NAME', '"$ADMIN_USERNAME"' );" /web_data/public_html/wp-config.php
+    sed -i "/DB_USER/c\define( 'DB_USER', '"$ADMIN_USERNAME"' );" /web_data/public_html/wp-config.php
+    sed -i "/DB_PASSWORD/c\define( 'DB_PASSWORD', '"$ADMIN_PASSWORD"' );" /web_data/public_html/wp-config.php
+    sed -i "/DB_HOST/c\define( 'DB_HOST', 'db' );" /web_data/public_html/wp-config.php
     echo "[OK] WORDPRESS CONFIG FILE UPDATED"
 }
 wp_securing_web(){
@@ -55,7 +55,7 @@ wp_setup_database(){
         # sleep until mysql is started successfly
         sleep 20
         cd /web_data/public_html/
-        wp core install --url=$WP_URL  --title=$WP_TITLE --admin_user=$ADMIN_USERNAME --admin_password=$ADMIN_PASSWORD --admin_email=$WP_ADMIN_EMAIL --skip-email --allow-root
+        wp core install --url=$WP_URL  --title=$WP_TITLE --admin_user=$ADMIN_USERNAME --admin_password=$ADMIN_PASSWORD --admin_email=ADMIN_EMAIL --skip-email --allow-root
         echo "[OK] WORDPRESS DATABASE SETTED UP"
     fi
 }
