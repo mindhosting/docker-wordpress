@@ -1,9 +1,5 @@
 version: '3'
 
-volumes:
-  mysql:
-  web:
-
 services:
   db:
     image: mysql:5.7.29
@@ -15,7 +11,7 @@ services:
       MYSQL_ROOT_PASSWORD: rootpassword
       TZ: Africa/Tunis
     volumes:
-      - mysql:/var/lib/mysql
+      - ./127.0.0.1/mysql:/var/lib/mysql
 
   wp:
     #image: mindhosting/wordpress:latest
@@ -26,7 +22,7 @@ services:
     links:
       - db:db
     volumes:
-      - web:/web_data/public_html
+      - ./127.0.0.1/web:/web_data/public_html
     hostname: 127.0.0.1
     environment:
       FILEMANAGER_ROOT_PATH: '/web_data/public_html'
