@@ -29,7 +29,7 @@ services:
       - web:/web_data/public_html
     hostname: 127.0.0.1
     environment:
-      FILEMANAGER_ROOT_PATH: '/web_data/public_thml'
+      FILEMANAGER_ROOT_PATH: '/web_data/public_html'
       TZ: Africa/Tunis
       WP_URL: https://127.0.0.1/
       WP_TITLE: Blog
