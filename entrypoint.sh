@@ -49,13 +49,13 @@ wp_securing_web(){
     echo "[OK] WORDPRESS WEB SECURED"
 }
 wp_setup_database(){
-    if [[ -f /web_data/db_data/$DB_NAME/wp_users.frm ]] && [[ -f /web_data/db_data/$DB_NAME/wp_users.ibd ]]; then
+    if [[ -f /web_data/db_data/$ADMIN_USERNAME/wp_users.frm ]] && [[ -f /web_data/db_data/$ADMIN_USERNAME/wp_users.ibd ]]; then
         echo "[CHECK] WORDPRESS DATABASE ALRADY INITILIZED"
     else
         # sleep until mysql is started successfly
         sleep 20
         cd /web_data/public_html/
-        wp core install --url=$WP_URL  --title=$WP_TITLE --admin_user=$ADMIN_USERNAME --admin_password=$ADMIN_PASSWORD --admin_email=ADMIN_EMAIL --skip-email --allow-root
+        wp core install --url=$WP_URL  --title=$WP_TITLE --admin_user=$ADMIN_USERNAME --admin_password=$ADMIN_PASSWORD --admin_email=$ADMIN_EMAIL --skip-email --allow-root
         echo "[OK] WORDPRESS DATABASE SETTED UP"
     fi
 }
