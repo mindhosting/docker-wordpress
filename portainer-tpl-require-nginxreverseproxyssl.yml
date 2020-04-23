@@ -48,7 +48,7 @@ services:
       ADMIN_EMAIL: $EMAIL
       VIRTUAL_HOST: $DOMAIN_NAME
       LETSENCRYPT_HOST: $DOMAIN_NAME
-      LETSENCRYPT_EMAIL: $LETSENCRYPT_EMAIL
+      LETSENCRYPT_EMAIL: mindengineering.tn@gmail.com
     network_mode: bridge
 
   duplicati:
@@ -61,7 +61,7 @@ services:
       CLI_ARGS: #optional
       VIRTUAL_HOST: duplicati.$DOMAIN_NAME
       LETSENCRYPT_HOST: duplicati.$DOMAIN_NAME
-      LETSENCRYPT_EMAIL: $LETSENCRYPT_EMAIL
+      LETSENCRYPT_EMAIL: mindengineering.tn@gmail.com
       VIRTUAL_PORT: '8200'
     volumes:
       # DUPLICATI CONFIGURATION
@@ -92,5 +92,5 @@ services:
       TZ: Africa/Tunis
       VIRTUAL_HOST: phpmyadmin.$DOMAIN_NAME
       LETSENCRYPT_HOST: phpmyadmin.$DOMAIN_NAME
-      LETSENCRYPT_EMAIL: $LETSENCRYPT_EMAIL
+      LETSENCRYPT_EMAIL: mindengineering.tn@gmail.com
     network_mode: bridge
