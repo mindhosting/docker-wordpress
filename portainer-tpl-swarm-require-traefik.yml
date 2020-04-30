@@ -22,9 +22,6 @@ services:
     image: mysql:5.7.29
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 2
-        delay: 20s
       restart_policy:
         condition: on-failure
         max_attempts: 3
@@ -46,17 +43,14 @@ services:
   wp:
     image: mindhosting/wordpress:latest
     deploy:
-      replicas: 4
-      update_config:
-        parallelism: 2
-        delay: 20s
+      replicas: 1
       restart_policy:
         condition: on-failure
         #max_attempts: 3
       resources:
         limits:
-          cpus: '0.5'
-          memory: 512M
+          cpus: '0.25'
+          memory: 256M
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.stack_name.rule=Host(`$DOMAIN_NAME`)"
