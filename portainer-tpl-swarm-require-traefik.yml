@@ -29,9 +29,6 @@ services:
         limits:
           cpus: '1'
           memory: 2048M
-        reservations:
-          cpus: '0.25'
-          memory: 256M
     environment:
       MYSQL_DATABASE: $USERNAME
       MYSQL_USER: $USERNAME
@@ -54,9 +51,6 @@ services:
         limits:
           cpus: '0.5'
           memory: 512M
-        reservations:
-          cpus: '0.25'
-          memory: 128M
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.stack_name.rule=Host(`$DOMAIN_NAME`)"
