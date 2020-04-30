@@ -57,12 +57,12 @@ services:
           memory: WP_MEMORY_RESERVATION
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.wordpress.rule=Host(`$DOMAIN_NAME`)"
-        - "traefik.http.routers.wordpress.entrypoints=web"
-        - "traefik.http.services.wordpress.loadbalancer.server.port=80" # it seems you always need to give traefik a port so it 'notices' the service
-        - "traefik.http.routers.wordpress-secured.rule=Host(`$DOMAIN_NAME`)"
-        - "traefik.http.routers.wordpress-secured.entrypoints=web-secured"
-        - "traefik.http.routers.wordpress-secured.tls.certresolver=mytlschallenge"
+        - "traefik.http.routers.$STACK_NAME.rule=Host(`$DOMAIN_NAME`)"
+        - "traefik.http.routers.$STACK_NAME.entrypoints=web"
+        - "traefik.http.services.$STACK_NAME.loadbalancer.server.port=80" # it seems you always need to give traefik a port so it 'notices' the service
+        - "traefik.http.routers.$STACK_NAME-secured.rule=Host(`$DOMAIN_NAME`)"
+        - "traefik.http.routers.$STACK_NAME-secured.entrypoints=web-secured"
+        - "traefik.http.routers.$STACK_NAME-secured.tls.certresolver=mytlschallenge"
     volumes:
       - web:/web_data/public_html
     hostname: wp.demo.mind.hosting
