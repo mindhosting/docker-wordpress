@@ -21,17 +21,17 @@ services:
   db:
     image: mysql:5.7.29
     deploy:
-      replicas: $DB_REPLICAS
+      replicas: 1
       restart_policy:
         condition: on-failure
         max_attempts: 3
       resources:
         limits:
-          cpus: '$DB_CPUS_LIMITS'
-          memory: $DB_MEMORY_LIMIT
+          cpus: '1'
+          memory: 2048M
         reservations:
-          cpus: 'DB_CPUS_RESERVATIONS'
-          memory: DB_MEMORY_RESERVATION
+          cpus: '0.25'
+          memory: 256M
     environment:
       MYSQL_DATABASE: $USERNAME
       MYSQL_USER: $USERNAME
@@ -46,17 +46,17 @@ services:
   wp:
     image: mindhosting/wordpress:latest
     deploy:
-      replicas: $WP_REPLICAS
+      replicas: 2
       restart_policy:
         condition: on-failure
         max_attempts: 3
       resources:
         limits:
-          cpus: '$WP_CPUS_LIMITS'
-          memory: $WP_MEMORY_LIMIT
+          cpus: '0.5'
+          memory: 2048M
         reservations:
-          cpus: 'WP_CPUS_RESERVATIONS'
-          memory: WP_MEMORY_RESERVATION
+          cpus: '0.25'
+          memory: 256M
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.$STACK_NAME.rule=Host(`$DOMAIN_NAME`)"
