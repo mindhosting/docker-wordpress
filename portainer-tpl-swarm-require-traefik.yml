@@ -24,6 +24,7 @@ services:
       replicas: $DB_REPLICAS
       restart_policy:
         condition: on-failure
+        max_attempts: 3
       resources:
         limits:
           cpus: '$DB_CPUS_LIMITS'
@@ -48,6 +49,7 @@ services:
       replicas: 2
       restart_policy:
         condition: on-failure
+        max_attempts: 3
       resources:
         limits:
           cpus: '$WP_CPUS_LIMITS'
