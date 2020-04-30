@@ -21,21 +21,21 @@ services:
   db:
     image: mysql:5.7.29
     deploy:
-      replicas: 1
+      replicas: $DB_REPLICAS
       restart_policy:
         condition: on-failure
       resources:
         limits:
-          cpus: '1'
-          memory: 256M
+          cpus: '$DB_CPUS_LIMITS'
+          memory: $DB_MEMORY_LIMIT
         reservations:
-          cpus: '0.25'
-          memory: 128M
+          cpus: 'DB_CPUS_RESERVATIONS'
+          memory: DB_MEMORY_RESERVATION
     environment:
-      MYSQL_DATABASE: admin
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: $USERNAME
+      MYSQL_USER: $USERNAME
+      MYSQL_PASSWORD: $PASSWORD
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
       TZ: Africa/Tunis
     volumes:
       - db:/var/lib/mysql
@@ -50,17 +50,17 @@ services:
         condition: on-failure
       resources:
         limits:
-          cpus: '1'
-          memory: 1024M
+          cpus: '$WP_CPUS_LIMITS'
+          memory: $WP_MEMORY_LIMIT
         reservations:
-          cpus: '0.25'
-          memory: 128M
+          cpus: 'WP_CPUS_RESERVATIONS'
+          memory: WP_MEMORY_RESERVATION
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.wordpress.rule=Host(`wp.demo.mind.hosting`)"
+        - "traefik.http.routers.wordpress.rule=Host(`$DOMAIN_NAME`)"
         - "traefik.http.routers.wordpress.entrypoints=web"
         - "traefik.http.services.wordpress.loadbalancer.server.port=80" # it seems you always need to give traefik a port so it 'notices' the service
-        - "traefik.http.routers.wordpress-secured.rule=Host(`wp.demo.mind.hosting`)"
+        - "traefik.http.routers.wordpress-secured.rule=Host(`$DOMAIN_NAME`)"
         - "traefik.http.routers.wordpress-secured.entrypoints=web-secured"
         - "traefik.http.routers.wordpress-secured.tls.certresolver=mytlschallenge"
     volumes:
@@ -69,12 +69,12 @@ services:
     environment:
       FILEMANAGER_ROOT_PATH: '/web_data/public_html'
       TZ: Africa/Tunis
-      WP_URL: https://wp.demo.mind.hosting/
+      WP_URL: https://$DOMAIN_NAME/
       WP_TITLE: Blog
-      ADMIN_USERNAME: admin
-      ADMIN_PASSWORD: password
-      ADMIN_EMAIL: admin@localhost.tn
-      VIRTUAL_HOST: wp.demo.mind.hosting
+      ADMIN_USERNAME: $USERNAME
+      ADMIN_PASSWORD: $PASSWORD
+      ADMIN_EMAIL: $EMAIL
+      VIRTUAL_HOST: $DOMAIN_NAME
     networks:
       - proxy
       - backend
