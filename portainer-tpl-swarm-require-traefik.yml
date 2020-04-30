@@ -15,13 +15,7 @@ networks:
 
 volumes:
   db:
-    driver: driver-plugin
-    driver_opts:
-      size: 1G
   web:
-    driver: driver-plugin
-    driver_opts:
-      size: 16G
 
 services:
   db:
