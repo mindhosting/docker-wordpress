@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7.29
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    environment:
+      MYSQL_DATABASE: admin
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+      TZ: Africa/Tunis
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - wp
+
+  wp:
+    image: mindhosting/wordpress:latest
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1024M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    volumes:
+      - web:/web_data/public_html
+    hostname: wp.demo.mind.hosting
+    environment:
+      FILEMANAGER_ROOT_PATH: '/web_data/public_html'
+      TZ: Africa/Tunis
+      WP_URL: http://wp.demo.mind.hosting/
+      WP_TITLE: Blog
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: password
+      ADMIN_EMAIL: admin@localhost.tn
+      VIRTUAL_HOST: wp.demo.mind.hosting
+    networks:
+      - wp
+    ports:
+      - 80:80
+
+volumes:
+  db:
+  web:
+
+networks:
+  wp:
