@@ -52,11 +52,28 @@ wp_setup_database(){
     if [[ -f /web_data/db_data/$ADMIN_USERNAME/wp_users.frm ]] && [[ -f /web_data/db_data/$ADMIN_USERNAME/wp_users.ibd ]]; then
         echo "[CHECK] WORDPRESS DATABASE ALRADY INITILIZED"
     else
-        # sleep until mysql is started successfly
-        sleep 20
-        cd /web_data/public_html/
-        wp core install --url=$WP_URL  --title=$WP_TITLE --admin_user=$ADMIN_USERNAME --admin_password=$ADMIN_PASSWORD --admin_email=$ADMIN_EMAIL --skip-email --allow-root
-        echo "[OK] WORDPRESS DATABASE SETTED UP"
+        i=0
+        WP_DATABASE=false
+        while [ $i -le 10 ] && [ !${WP_DATABASE} ];
+        do
+                sleep 5
+                curl --fail http://db:3306 1>/dev/null 2>&1;
+                if [[ $? -eq 0 ]]; then
+                        cd /web_data/public_html/
+                        wp core install --url=$WP_URL  --title=$WP_TITLE --admin_user=$ADMIN_USERNAME --admin_password=$ADMIN_PASSWORD --admin_email=$ADMIN_EMAIL --skip-email $
+                        if [[ $? -eq 0 ]]; then
+                                echo "[OK] WORDPRESS DATABASE INSTALLED SUCCEFULLY"
+                                WP_DATABASE=true
+                        else
+                                echo "[ERROR] FAILED TO INSTALL WORDPRESS DATABASE"
+                        fi
+                        break
+                else
+                        ((i++))
+                        echo"[WAITING] DATABASE SERVER NOT YET READY FOR CONNEXION, NETX TRY IN 5 SECONDS"
+                fi
+        done
+
     fi
 }
 if [[ "$1" == apache2* ]]; then
