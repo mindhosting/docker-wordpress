@@ -31,17 +31,15 @@ RUN apt-get update -yq && \
     php7.3-tidy \
     php7.3-xmlrpc \
     php-imagick \
-    nano \
     graphicsmagick \
     imagemagick \
     ghostscript \
     iputils-ping \
-    nodejs \
-    npm \
     locales \
     wget \
     git \
     zip \
+    mysql-client \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Generate locales
@@ -61,13 +59,6 @@ RUN git clone https://github.com/mindhosting/filemanager.git /var/www/filemanage
     rm -r /var/www/filemanager/.git && \
     chown -R www-data:www-data /var/www/filemanager
 
-# Downloading lastest wordpress
-WORKDIR web_data
-RUN mkdir public_html && \
-    wget http://wordpress.org/latest.tar.gz && \
-    tar xfz latest.tar.gz && \
-    rm -r latest.tar.gz
-
 # Configure WP CLI
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
@@ -83,4 +74,6 @@ EXPOSE 80
 RUN chown -R www-data:www-data /web_data/public_html && \
     ln -sf /dev/stdout /var/log/apache2/access.log && \
     ln -sf /dev/stderr /var/log/apache2/error.log
+# ADD HEATHCHECK TETS
+#HEALTHCHECK CMD curl --fail http://localhost:80 || exit 1
 CMD ["apache2ctl", "-D", "FOREGROUND"]
