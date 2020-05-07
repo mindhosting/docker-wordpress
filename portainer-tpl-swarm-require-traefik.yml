@@ -21,14 +21,14 @@ services:
   db:
     image: mysql:5.7.29
     deploy:
-      replicas: $MYSQL_REPLICAS
+      replicas: $DB_REPLICAS
       restart_policy:
         condition: on-failure
         max_attempts: 3
       resources:
         limits:
-          cpus: '$MYSQL_CPU'
-          memory: $MYSQL_MEMORY
+          cpus: 'DB_CPU'
+          memory: $DB_MEMORY
     environment:
       MYSQL_DATABASE: $USERNAME
       MYSQL_USER: $USERNAME
@@ -43,14 +43,14 @@ services:
   wp:
     image: mindhosting/wordpress:latest
     deploy:
-      replicas: $WP_REPLICAS
+      replicas: $WEB_REPLICAS
       restart_policy:
         condition: on-failure
         max_attempts: 3
       resources:
         limits:
-          cpus: '$WP_CPU'
-          memory: $WP_MEMORY
+          cpus: '$WEB_CPU'
+          memory: $WEB_MEMORY
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.stack_name.rule=Host(`$DOMAIN_NAME`)"
@@ -61,7 +61,7 @@ services:
         - "traefik.http.routers.stack_name-secured.tls.certresolver=mytlschallenge"
     volumes:
       - web:/web_data/public_html
-    hostname: wp.demo.mind.hosting
+    hostname: $DOMAIN_NAME
     environment:
       FILEMANAGER_ROOT_PATH: '/web_data/public_html'
       TZ: Africa/Tunis
