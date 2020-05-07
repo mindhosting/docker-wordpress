@@ -43,7 +43,7 @@ services:
   wp:
     image: mindhosting/wordpress:latest
     deploy:
-      replicas: $_REPLICAS
+      replicas: $WP_REPLICAS
       restart_policy:
         condition: on-failure
         max_attempts: 3
