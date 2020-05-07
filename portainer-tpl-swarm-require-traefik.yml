@@ -28,7 +28,7 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: MYSQL_MEMORY
+          memory: $MYSQL_MEMORY
     environment:
       MYSQL_DATABASE: $USERNAME
       MYSQL_USER: $USERNAME
