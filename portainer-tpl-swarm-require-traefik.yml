@@ -28,7 +28,7 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 2048M
+          memory: MYSQL_MEMORY
     environment:
       MYSQL_DATABASE: $USERNAME
       MYSQL_USER: $USERNAME
@@ -46,11 +46,11 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-        #max_attempts: 3
+        max_attempts: 3
       resources:
         limits:
           cpus: '0.25'
-          memory: 256M
+          memory: $WP_MEMORY
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.stack_name.rule=Host(`$DOMAIN_NAME`)"
