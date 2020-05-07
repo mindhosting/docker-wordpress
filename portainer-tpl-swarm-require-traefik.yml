@@ -27,7 +27,7 @@ services:
         max_attempts: 3
       resources:
         limits:
-          cpus: '1'
+          cpus: '$MYSQL_CPU'
           memory: $MYSQL_MEMORY
     environment:
       MYSQL_DATABASE: $USERNAME
@@ -49,7 +49,7 @@ services:
         max_attempts: 3
       resources:
         limits:
-          cpus: '0.25'
+          cpus: '$WP_CPU'
           memory: $WP_MEMORY
       labels:
         - "traefik.enable=true"
