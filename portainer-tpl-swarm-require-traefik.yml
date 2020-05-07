@@ -21,7 +21,7 @@ services:
   db:
     image: mysql:5.7.29
     deploy:
-      replicas: 1
+      replicas: $MYSQL_REPLICAS
       restart_policy:
         condition: on-failure
         max_attempts: 3
@@ -43,7 +43,7 @@ services:
   wp:
     image: mindhosting/wordpress:latest
     deploy:
-      replicas: 1
+      replicas: $_REPLICAS
       restart_policy:
         condition: on-failure
         max_attempts: 3
