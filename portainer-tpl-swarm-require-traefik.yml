@@ -24,10 +24,10 @@ services:
       replicas: $DB_REPLICAS
       restart_policy:
         condition: on-failure
-        max_attempts: 3
+        max_attempts: 5
       resources:
         limits:
-          cpus: 'DB_CPU'
+          cpus: '$DB_CPU'
           memory: $DB_MEMORY
     environment:
       MYSQL_DATABASE: $USERNAME
@@ -46,7 +46,7 @@ services:
       replicas: $WEB_REPLICAS
       restart_policy:
         condition: on-failure
-        max_attempts: 3
+        max_attempts: 5
       resources:
         limits:
           cpus: '$WEB_CPU'
