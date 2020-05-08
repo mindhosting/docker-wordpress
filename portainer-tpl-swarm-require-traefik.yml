@@ -71,6 +71,11 @@ services:
       ADMIN_PASSWORD: $PASSWORD
       ADMIN_EMAIL: $EMAIL
       VIRTUAL_HOST: $DOMAIN_NAME
+      PHP_MEMORY_LIMIT: '$WEB_MEMORY'
+      PHP_MAX_EXECUTION_TIME: '300'
+      PHP_MAX_FILESIZE: '64M'
+      PHP_POST_MAX_SIZE: '128M'
+      PHP_INPUT_VARS: '5000'
     networks:
       - proxy
       - backend
