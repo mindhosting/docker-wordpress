@@ -10,7 +10,7 @@ logo_print(){
     ██║ ╚═╝ ██║██║██║ ╚████║██████╔╝    ██║  ██║╚██████╔╝███████║   ██║   ██║██║ ╚████║╚██████╔╝
     ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═════╝     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝   ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝
                                                                                          PHP 7.3
-    WORDPRESS CONTAINER (R) AVRIL2020 V0.1
+    WORDPRESS CONTAINER (R) AVRIL2020 V1.0
     FOR MIND HOSTING
     https://mind.hosting
     by SAKLY Ayoub
@@ -23,8 +23,8 @@ apache_set_servername(){
 }
 
 wp_install(){
-	if [[ -z "$(ls -A /web_data/public_html)" ]]; then
-        	cd /web_data/public_html
+	if [[ -z "$(ls -A /var/www/html)" ]]; then
+        	cd /var/www/html
 		cat > lock.tmp
 	        wp core download --allow-root
 		rm lock.tmp
@@ -34,7 +34,7 @@ wp_install(){
 	        do
 	                curl --fail http://db:3306 1>/dev/null 2>&1;
 	                if [[ $? -eq 0 ]]; then
-	                        cd /web_data/public_html/
+	                        cd /var/www/html/
 				wp core config --dbname=$ADMIN_USERNAME --dbuser=$ADMIN_USERNAME --dbpass=$ADMIN_PASSWORD --dbhost=db --dbprefix=wp_ --extra-php --allow-root
 	                        wp core install --url=$WP_URL  --title=$WP_TITLE --admin_user=$ADMIN_USERNAME --admin_password=$ADMIN_PASSWORD --admin_email=$ADMIN_EMAIL --skip-email --allow-root
 	                        if [[ $? -eq 0 ]]; then
@@ -47,11 +47,11 @@ wp_install(){
 				sleep 5
 	                fi
 	        done
-	        chown -R www-data:www-data /web_data/public_html
+	        chown -R www-data:www-data /var/www/html
 		echo "Success: Make www-data owner of Wordpress files"
-	        chmod -R 0755 /web_data/public_html
-	        find /web_data/public_html -type f -exec chmod 0644 {} \;
-	        chmod 0444 /web_data/public_html/wp-config.php
+	        chmod -R 0755 /var/www/html
+	        find /var/www/html -type f -exec chmod 0644 {} \;
+	        chmod 0444 /var/www/html/wp-config.php
 		echo "Success: Fix files permession"
 	fi
 }
@@ -66,6 +66,9 @@ if [[ "$1" == apache2* ]]; then
 	echo " "
 	echo " "
 	echo "**** WORDPRESS CONTAINER STARED SUCCESSFULY ****"
+	echo "Notice: You website URL https://$VIRTUAL_HOST/"
+	echo "Notice: PhpMyAdmin is available under https://$VIRTUAL_HOST/phpmyadmin"
+	echo "Notice: Filemanager is available under https://$VIRTUAL_HOST/filemanage"
 	echo "Notice: below there will be the instant apache access and error log"
 	echo " "
 	echo " "
