@@ -25,7 +25,7 @@ apache_set_servername(){
 wp_install(){
 	if [[ -z "$(ls -A /var/www/html)" ]]; then
         	cd /var/www/html
-		cat > lock.tmp
+		touch lock.tmp
 	        wp core download --allow-root
 		rm lock.tmp
 	        i=0
