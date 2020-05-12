@@ -60,10 +60,10 @@ services:
         - "traefik.http.routers.stack_name-secured.entrypoints=web-secured"
         - "traefik.http.routers.stack_name-secured.tls.certresolver=mytlschallenge"
     volumes:
-      - web:/web_data/public_html
+      - web:/var/www/html
     hostname: $DOMAIN_NAME
     environment:
-      FILEMANAGER_ROOT_PATH: '/web_data/public_html'
+      FILEMANAGER_ROOT_PATH: '/var/www/html'
       TZ: Africa/Tunis
       WP_URL: https://$DOMAIN_NAME/
       WP_TITLE: Blog
