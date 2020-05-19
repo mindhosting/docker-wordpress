@@ -1,4 +1,4 @@
-FROM mindhosting/apachephp:latest
+FROM mindhosting/apachephp:7.3
 LABEL Maintainer="Sakly Ayoub"
 ENV DEBIAN_FRONTEND noninteractive
 #
