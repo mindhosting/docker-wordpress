@@ -1,5 +1,4 @@
-FROM mindhosting/apachephp:latest
-LABEL Maintainer="Sakly Ayoub"
+FROM mindhosting/apachephp:7.0
 ENV DEBIAN_FRONTEND noninteractive
 #
 # Configure WP CLI
