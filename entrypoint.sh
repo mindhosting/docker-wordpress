@@ -36,7 +36,7 @@ wp_install(){
 	                if [[ $? -eq 0 ]]; then
 	                        cd /var/www/html/
 				wp core config --dbname=$ADMIN_USERNAME --dbuser=$ADMIN_USERNAME --dbpass=$ADMIN_PASSWORD --dbhost=db --dbprefix=wp_ --extra-php --allow-root
-	                        wp core install --url=$WP_URL  --title=$WP_TITLE --admin_user=$ADMIN_USERNAME --admin_password=$ADMIN_PASSWORD --admin_email=$ADMIN_EMAIL --skip-email --allow-root
+	                        wp core install --url="https://"$VIRTUAL_HOST  --title="Blog" --admin_user=$ADMIN_USERNAME --admin_password=$ADMIN_PASSWORD --admin_email=$ADMIN_EMAIL --skip-email --allow-root
 	                        if [[ $? -eq 0 ]]; then
 	                                WP_DATABASE=true
 	                                break
